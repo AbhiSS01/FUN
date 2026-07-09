@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>I'm Sorry!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffe6eb;
+            font-family: 'Nunito', sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .emoji {
+            font-size: 100px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        h1 {
+            color: #ff4d6d;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #595959;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-family: 'Nunito', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        #btn-yes {
+            background-color: #ff4d6d;
+            font-size: 18px;
+            padding: 15px 35px;
+        }
+
+        #btn-yes:active {
+            transform: scale(0.95);
+        }
+
+        #btn-no {
+            background-color: #a6a6a6;
+            font-size: 18px;
+            padding: 15px 35px;
+        }
+
+        #btn-no:active {
+            transform: scale(0.95);
+        }
+
+        /* Bow down screen styling */
+        #final-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 1s forwards;
+        }
+
+        #btn-accept {
+            background-color: #ff4d6d;
+            font-size: 24px;
+            padding: 20px 50px;
+            margin-top: 20px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Pleading Screen -->
+    <div id="main-screen" class="container">
+        <div class="emoji" id="emoji">🥺</div>
+        <h1 id="title-text">I am so sorry, my love. My Subha</h1>
+        <p id="subtitle-text">Will you please forgive me?</p>
+        
+        <div class="btn-container" id="btn-container">
+            <button id="btn-yes" onclick="forgiveMe()">Yes</button>
+            <button id="btn-no" onclick="refuseMe()">No</button>
+        </div>
+    </div>
+
+    <!-- Final Bowing Screen -->
+    <div id="final-screen" class="container">
+        <div class="emoji">🙇‍♂️</div>
+        <h1>I am bowing down at your feet!</h1>
+        <p>I love you so much. Please, I promise to make it right.</p>
+        <button id="btn-accept" onclick="forgiveMe()">Accept</button>
+    </div>
+
+    <!-- Success Screen -->
+    <div id="success-screen" class="container" style="display: none;">
+        <div class="emoji">🥰</div>
+        <h1>Thank You! ❤️</h1>
+        <p>You are the best wife in the world. I love you!</p>
+    </div>
+
+    <script>
+        let noCount = 0;
+        let yesButtonSize = 18;
+        let yesButtonPadding = 15;
+
+        // Array of cute/pleading phrases for the 'No' button
+        const noPhrases = [
+            "No",
+            "Are you sure?",
+            "Please?",
+            "Pretty please?",
+            "I'm really, really sorry!",
+            "Give me a chance!",
+            "Don't do this to me!",
+            "My heart is breaking 💔",
+            "I'll keep my room clean forever!",
+            "I'll buy your favorite food!",
+            "Please forgive your idiot...",
+            "I'm crying now 😭",
+            "Okay, this hurts...",
+            "Have mercy!",
+            "Last chance to be nice!"
+        ];
+
+        function refuseMe() {
+            noCount++;
+            
+            if (noCount < 15) {
+                // Change the text of the No button
+                const btnNo = document.getElementById("btn-no");
+                btnNo.innerText = noPhrases[noCount];
+
+                // Make the Yes button slightly bigger every time she clicks No
+                yesButtonSize += 4;
+                yesButtonPadding += 2;
+                const btnYes = document.getElementById("btn-yes");
+                btnYes.style.fontSize = yesButtonSize + "px";
+                btnYes.style.padding = yesButtonPadding + "px " + (yesButtonPadding * 2.5) + "px";
+                
+                // Change the main text a little bit to make it engaging
+                if(noCount === 5) document.getElementById("subtitle-text").innerText = "I really mean it!";
+                if(noCount === 10) document.getElementById("subtitle-text").innerText = "I'm running out of options here...";
+                
+            } else {
+                // Switch to the bowing down screen
+                document.getElementById("main-screen").style.display = "none";
+                document.getElementById("final-screen").style.display = "flex";
+            }
+        }
+
+        function forgiveMe() {
+            // Hide all other screens and show the success screen
+            document.getElementById("main-screen").style.display = "none";
+            document.getElementById("final-screen").style.display = "none";
+            
+            const successScreen = document.getElementById("success-screen");
+            successScreen.style.display = "flex";
+            successScreen.style.animation = "fadeIn 1s forwards";
+        }
+    </script>
+</body>
+</html>
